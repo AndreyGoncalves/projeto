@@ -17,10 +17,11 @@ public class Loon {
     int distancia;
 
     public static void main(String[] args) {
-      //chama menu;
+        //chama menu;
         menu();
         System.out.println("Programa fechado.");
     }
+
     private static void menu() {
 
         int opcao = 0;
@@ -42,7 +43,7 @@ public class Loon {
             Scanner ent_opcao = new Scanner(System.in);
             opcao = ent_opcao.nextInt();                //le inteiro do teclado para selecionar opcao do menu
             Loon loon1 = new Loon();
-            switch (opcao){
+            switch (opcao) {
                 case 1:
                     /*onde chama o método para cadastrar ERB*/
                     System.out.println("Digite número do ID da ERB a ser criada");
@@ -57,7 +58,7 @@ public class Loon {
                     /*@param id - id da ERB a ser cadastrada
                     * @param latitude - latitude de onde a ERB vai ser cadastrada
                     * @param longitude - longitude de onde a ERB vai ser cadastrada*/
-                    loon1.Cadastrar_ERB(id,latitude,longitude);
+                    loon1.Cadastrar_ERB(id, latitude, longitude);
                     break;
                 case 2:
                     /*onde chama o método para excluir ERB*/
@@ -90,7 +91,7 @@ public class Loon {
                     float longi = entrada44.nextFloat();
                     /*@param lat - latitude de onde o balão vai ser lançado
                     * @param longi - longitude de onde o balão vais er lançado*/
-                    loon1.Lancar(lat,longi);
+                    loon1.Lancar(lat, longi);
                     break;
                 case 6:
                     /*onde chama o método para fazer um deslocamento horizontal dos baloes*/
@@ -108,7 +109,7 @@ public class Loon {
                 case 8:
                     /*onde chama o método que simuna a rota de uma mensagem passada pelo usuario*/
                     System.out.println("simulando rota de mensagens...\n");
-                    float latit = 0, llong=0;
+                    float latit = 0, llong = 0;
                     String sms = null;
                     System.out.println("Digite sua latitude atual:\n");
                     Scanner entradal = new Scanner(System.in);
@@ -122,7 +123,7 @@ public class Loon {
                     /*@param latit - latitude da posição atual
                     * @param llong longitude da posição atual
                     * @param sms - mensagem passada pelo usuário*/
-                    loon1.Simular_rota_das_mensagens(latit,llong,sms);
+                    loon1.Simular_rota_das_mensagens(latit, llong, sms);
                     break;
                 case 0:
                     /*chama o método para sair do programa*/
@@ -141,7 +142,7 @@ public class Loon {
     /*@param id - parametro que numera o indificador de cada ERB
     * @param latitude - parametro da latitude aonde será cadastrada a ERB
     * @param longitude - parametro da longitude aonde será cadastrada a ERB*/
-    public static boolean Cadastrar_ERB(int id,float latitude,float longitude) {
+    public static boolean Cadastrar_ERB(int id, float latitude, float longitude) {
         Coordinate lat = new DegreeCoordinate(latitude);
         Coordinate lng = new DegreeCoordinate(longitude);
         Point pointer_new_erb = new Point(lat, lng); //ponto da nova ERB
@@ -150,7 +151,7 @@ public class Loon {
             Coordinate latt = new DegreeCoordinate(lista_erb.get(i).Latitude);
             Coordinate lngg = new DegreeCoordinate(lista_erb.get(i).Longitude);
             Point pointer_list_erb = new Point(latt, lngg);   // pontos das erb cadastrada na lista
-            if (ERB.getDistancia(pointer_new_erb, pointer_list_erb) < (double) 40000|| id == lista_erb.get(i).ID) {
+            if (ERB.getDistancia(pointer_new_erb, pointer_list_erb) < (double) 40000 || id == lista_erb.get(i).ID) {
                 System.out.printf("A distância de um ERB para outra tem que ser maior que 40Km...\n \n");
                 /*@return - se a distancia for menor q 40km*/
                 return false;
@@ -158,7 +159,7 @@ public class Loon {
             }
         }
         /*adiciona nova ERB na lista de ERB cadastradas se a mesma tiver uma distancia maior q 40km de qualquer outra ERB*/
-        ERB erb = new ERB(id,latitude,longitude);
+        ERB erb = new ERB(id, latitude, longitude);
         lista_erb.add(erb);
         /*@return - se for maior q 40km */
         return true;
@@ -167,8 +168,8 @@ public class Loon {
     /*Remover estação rádio base terrestre*/
     /*@param remove_ERB - parametro passado pelo usuário para excluir ERB. no caso exclui a ERB com o ID passado pelo parametro remove_ERB*/
     public void Remover_ERB(int remove_ERB) {
-        for(int i = 0;i <lista_erb.size();i++){      //pecorre lista de erb
-            if(lista_erb.get(i).ID == remove_ERB){
+        for (int i = 0; i < lista_erb.size(); i++) {      //pecorre lista de erb
+            if (lista_erb.get(i).ID == remove_ERB) {
                 final ERB remove = lista_erb.remove(i);                    //remove a ERB pelo ID passado por parametro
             }
         }
@@ -177,18 +178,21 @@ public class Loon {
     /*Imprimir os dados de todas estações rádio base terrestres*/
 
     public void imprimir_dados_todos_ERB() {
-        for(int i=0; i<lista_erb.size(); i++){
-            System.out.println("ID: "+lista_erb.get(i).ID + " " + "Latitude: "+lista_erb.get(i).Latitude +" " + "Longitude: "+lista_erb.get(i).Longitude);
+        for (int i = 0; i < lista_erb.size(); i++) {
+            System.out.println("ID: " + lista_erb.get(i).ID + " " + "Latitude: " + lista_erb.get(i).Latitude + " " + "Longitude: " + lista_erb.get(i).Longitude);
         }
 
     }
 
     /*Imprimir todos os dados de um balão específico Usuário fornece o identificador do balão*/
-    /*@param lst_ballon - usado para definir qual ERB imprimir, ou seja, ela vai imprimir os dados da ERB cadastrada com o ID lst_ballon */
+    /*@param lst_ballon - usado para definir qual balao imprimir, ou seja, ela vai imprimir os dados dabalao cadastrada com o ID lst_ballon */
     public void Imprimir_dados_especifico_balao(int lst_balloon) {
-        System.out.println("ID: " + lista_balloon.get(lst_balloon).ID + " " + "Latitude: " + lista_balloon.get(lst_balloon).Latitude + " " + "Longitude: " + lista_balloon.get(lst_balloon).Longitude);
+        if (lst_balloon == lista_balloon.get(lst_balloon).ID) {
+            System.out.println("ID: " + lista_balloon.get(lst_balloon).ID + " " + "Latitude: " + lista_balloon.get(lst_balloon).Latitude + " " + "Longitude: " + lista_balloon.get(lst_balloon).Longitude);
+        } else System.out.println("opçao invalida");
 
     }
+
 
     /*Se for o primeiro balão a ser lançado, então esse não terá vizinho. Se houver algum balão lançado,
         então o sistema deverá automaticamente preencher o identificador desse como sendo vizinho do balão que está para
@@ -196,32 +200,34 @@ public class Loon {
 /*@param lat - latitude de onde o balao será lançado
 * @param longi - longitude de onde o balao será lançado
 */
-    public void Lancar( float lat,float longi) {
-        if(!lista_balloon.isEmpty()){
+    public void Lancar(float lat, float longi) {
+        if (!lista_balloon.isEmpty()) {
             int pos = lista_balloon.size();
 
-            Balloon balloon = new Balloon(pos,lat,longi);
+            Balloon balloon = new Balloon(pos, lat, longi);
             lista_balloon.add(balloon);
-            }else{
-            int k=0;
-            Balloon balloon = new Balloon(k,lat,longi);
+        } else {
+            int k = 0;
+            Balloon balloon = new Balloon(k, lat, longi);
             lista_balloon.add(balloon);
         }
     }
 
-    /*Usuário fornece a unidade de deslocamento horizontal e essa é aplicada em todos os balões*/
-    /*@param deslocamento - número do deslocamento horiontal a ser realizado... passado pelo user*/
+
     public void Simular_movimentação(float deslocamento) {
+           /*Usuário fornece a unidade de deslocamento horizontal e essa é aplicada em todos os balões*/
+    /*@param deslocamento - número do deslocamento horiontal a ser realizado... passado pelo user*/
         System.out.println("O deslocamento foi efetuado...para ver selecione a opção 7\n");
-        for(int i=0; i<lista_balloon.size(); i++){
-            lista_balloon.get(i).Latitude =lista_balloon.get(i).Latitude+deslocamento; // sobreescreve as latitudes na lista de baloes somando com o deslocamento
-            lista_balloon.get(i).Longitude =lista_balloon.get(i).Longitude+deslocamento;// sobreescreve as longitudes na lista de baloes somando com o deslocamento
+        for (int i = 0; i < lista_balloon.size(); i++) {
+            lista_balloon.get(i).Latitude = lista_balloon.get(i).Latitude + deslocamento; // sobreescreve as latitudes na lista de baloes somando com o deslocamento
+            lista_balloon.get(i).Longitude = lista_balloon.get(i).Longitude + deslocamento;// sobreescreve as longitudes na lista de baloes somando com o deslocamento
         }
     }
+
     /*método que imprime todos os dados de todos os balões cadastrados*/
     public void Imprimir_ID_coordenadas_todos_baloes() {
-        for(int i=0; i<lista_balloon.size(); i++){
-            System.out.println("ID: "+lista_balloon.get(i).ID + " " + "Latitude: "+lista_balloon.get(i).Latitude +" " + "Longitude: "+lista_balloon.get(i).Longitude);
+        for (int i = 0; i < lista_balloon.size(); i++) {
+            System.out.println("ID: " + lista_balloon.get(i).ID + " " + "Latitude: " + lista_balloon.get(i).Latitude + " " + "Longitude: " + lista_balloon.get(i).Longitude);
         }
     }
 
@@ -230,10 +236,11 @@ public class Loon {
      automaticamente enviar a mensagem para o balão mais próximo do usuário
      B - Deve-se imprimir a rota percorrida pela mensagem até ser entregue na ERB
      (i.e. identificadores dos balões por onde passou a mensagem)*/
-    public void Simular_rota_das_mensagens(float latitude,float longitude, String mensagem) {
+    public void Simular_rota_das_mensagens(float latitude, float longitude, String mensagem) {
 
     }
-/*metodo para sair do programa*/
+
+    /*metodo para sair do programa*/
     public void Sair() {
         System.exit(0);
     }
